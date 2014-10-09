@@ -2,7 +2,10 @@
 
 // global variables
 var time;
-var speed = 400;
+var startShape = -1;
+var startRotate = 0;
+var rotateCounter = 0;
+var speed = 100;
 var play;
 var fallingShape;
 var nextShape;
@@ -67,15 +70,18 @@ function Shape() {
 Shape.prototype = {
 
     init: function() {
-        var rotation = Math.floor(Math.random() * 4);
 
-        // generate random shape
-        var randomShape = Math.floor(Math.random() * shapes.length);
-        this.shape = shapes[randomShape];
+        startShape++;
 
-        for(var i = 0; i < rotation; i++) {
-            this.rotate();
+        if (startShape >= shapes.length - 1) {
+            startShape = 0;    
+            rotateCounter++;    
         }
+
+        // shape after shape, from array "shapes"
+        this.shape = shapes[startShape];
+
+
     },
 
     // gettin next shape
@@ -88,16 +94,23 @@ Shape.prototype = {
         // nextShape is now became our fallingShape
         fallingShape = nextShape;
 
+
+        // rotate next figure 
+        for (var i = 0; i < rotateCounter; i++) {
+            nextShape.rotate();
+        }   
+
         // when shape goes outside board, game over
         if(this.collision(fallingShape)) {
             Tetris.gameOver();
         }
+
+
     },
 
     // creating new rotated shape
     rotate: function() {
 
-        console.log(this.shape);
 
         var shapeSize = 4,
             rotatedShape = {};
