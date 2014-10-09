@@ -3,7 +3,6 @@
 // global variables
 var time;
 var startShape = -1;
-var startRotate = 0;
 var rotateCounter = 0;
 var speed = 100;
 var play;
