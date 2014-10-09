@@ -6,6 +6,7 @@ var startShape = -1;
 var rotateCounter = 0;
 var speed = 100;
 var play;
+var shapeSize = 4;
 var fallingShape;
 var nextShape;
 var canvas;
@@ -72,9 +73,9 @@ Shape.prototype = {
 
         startShape++;
 
-        if (startShape >= shapes.length - 1) {
+        if (startShape >= shapes.length) {
             startShape = 0;    
-            rotateCounter++;    
+            rotateCounter++; // rotate after each full iteration "shapes" array
         }
 
         // shape after shape, from array "shapes"
@@ -93,7 +94,11 @@ Shape.prototype = {
         // nextShape is now became our fallingShape
         fallingShape = nextShape;
 
-
+        
+        if (rotateCounter >= shapeSize) {
+            rotateCounter = 0;
+        }    
+        
         // rotate next figure 
         for (var i = 0; i < rotateCounter; i++) {
             nextShape.rotate();
@@ -111,8 +116,7 @@ Shape.prototype = {
     rotate: function() {
 
 
-        var shapeSize = 4,
-            rotatedShape = {};
+        var rotatedShape = {};
         
         rotatedShape.shape = [
             [0, 0, 0, 0],
@@ -345,11 +349,11 @@ var Tetris = {
 
         Board = new Board();
         fallingShape = new Shape();
-        nextShape = new Shape();
+        // nextShape = new Shape();
 
         Board.init();
         fallingShape.init();
-        nextShape.init();
+        // nextShape.init();
 
         time = new Date().getTime();
 
